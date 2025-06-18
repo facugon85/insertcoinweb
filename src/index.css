@@ -1,0 +1,417 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+
+    --accent: 219 89% 54%;
+    --accent-foreground: 0 0% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 240 10% 3.9%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border selection:bg-retro-purple/30 selection:text-white;
+  }
+  
+  body {
+    @apply bg-retro-black text-foreground font-mono antialiased overflow-x-hidden;
+    background-image: 
+      radial-gradient(circle at 25px 25px, rgba(139, 92, 246, 0.15) 2px, transparent 0),
+      radial-gradient(circle at 75px 75px, rgba(34, 211, 238, 0.1) 2px, transparent 0);
+    background-size: 100px 100px;
+  }
+
+  /* Retro scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-retro-darkgray;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-retro-purple rounded-full;
+    border: 2px solid transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-retro-blue;
+  }
+
+  /* Pixelated images */
+  .pixel-image {
+    image-rendering: pixelated;
+  }
+}
+
+@layer components {
+  /* Pixel frame */
+  .pixel-frame {
+    @apply relative border-2 border-white/20 backdrop-blur-sm bg-retro-darkgray/80 p-4;
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.3),
+                0 0 0 4px rgba(139, 92, 246, 0.1),
+                0 0 20px rgba(139, 92, 246, 0.2);
+  }
+  
+  .pixel-frame::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full pointer-events-none;
+    background: linear-gradient(
+      45deg,
+      transparent 0%,
+      rgba(139, 92, 246, 0.1) 50%,
+      transparent 100%
+    );
+    mix-blend-mode: overlay;
+  }
+  
+  /* Retro button */
+  .retro-btn {
+    @apply relative overflow-hidden font-pixel text-xs py-2 px-4 border-2 border-white/20 
+      bg-retro-darkgray/90 text-white shadow-lg transition-all duration-200 
+      hover:border-retro-purple/60 focus:outline-none;
+  }
+  
+  .retro-btn::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r pointer-events-none opacity-0 
+      transition-opacity duration-300;
+    background: linear-gradient(to right, 
+      rgba(139, 92, 246, 0) 0%,
+      rgba(139, 92, 246, 0.5) 50%,
+      rgba(139, 92, 246, 0) 100%
+    );
+  }
+  
+  .retro-btn:hover::after {
+    @apply opacity-100;
+    animation: pixel-move 1s linear infinite;
+  }
+  
+  /* Neon text */
+  .neon-text {
+    --glow-color: theme('colors.retro.purple');
+    @apply relative font-pixel tracking-wider;
+    color: white;
+    text-shadow: 
+      0 0 5px var(--glow-color),
+      0 0 10px var(--glow-color),
+      0 0 20px var(--glow-color);
+  }
+  
+  .neon-text.blue {
+    --glow-color: theme('colors.retro.blue');
+  }
+  
+  .neon-text.cyan {
+    --glow-color: theme('colors.retro.cyan');
+  }
+  
+  .neon-text.purple {
+    --glow-color: theme('colors.retro.purple');
+  }
+  
+  .neon-text.yellow {
+    --glow-color: theme('colors.retro.yellow');
+  }
+  
+  /* Scanline effect */
+  .scanline {
+    @apply fixed top-0 left-0 w-full h-screen pointer-events-none opacity-20 z-50;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 1px,
+      rgba(0, 0, 0, 0.25) 1px,
+      rgba(0, 0, 0, 0.25) 2px
+    );
+  }
+  
+  /* CRT animation */
+  .crt-on {
+    @apply animate-page-transition-in;
+    animation-duration: 0.5s;
+  }
+  
+  .crt-off {
+    @apply animate-page-transition-out;
+    animation-duration: 0.5s;
+  }
+  
+  /* Pixel art card */
+  .pixel-card {
+    @apply relative overflow-hidden backdrop-blur-sm bg-retro-darkgray/80 border-2 
+      border-white/20 transition-all duration-300 
+      hover:border-retro-cyan/60 hover:shadow-[0_0_15px_rgba(34,211,238,0.3)];
+  }
+  
+  .pixel-card::after {
+    content: '';
+    @apply absolute -inset-1 bg-gradient-to-tr from-retro-purple/0 
+      via-retro-cyan/20 to-retro-blue/0 blur opacity-0 transition-opacity 
+      duration-500 -z-10;
+    mix-blend-mode: screen;
+  }
+  
+  .pixel-card:hover::after {
+    @apply opacity-100;
+  }
+  
+  /* Project card with hover effect */
+  /* Fixed: Removed 'group' from @apply directive and added it as a separate class */
+  .project-card {
+    @apply pixel-card p-6 flex flex-col h-full;
+  }
+  
+  /* Add the group class directly in the HTML instead */
+  
+  .project-card:hover .project-image {
+    @apply scale-105 drop-shadow-neon-cyan;
+  }
+  
+  .project-image {
+    @apply transition-all duration-500 ease-out transform mb-4;
+  }
+  
+  /* Star background */
+  .star-bg {
+    @apply absolute top-0 left-0 w-full h-full z-0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+  
+  .star {
+    @apply absolute w-[2px] h-[2px] rounded-full bg-white;
+    animation: star-twinkle var(--twinkle-duration, 4s) ease-in-out infinite;
+    animation-delay: var(--twinkle-delay, 0s);
+  }
+  
+  /* Terminal text */
+  .terminal-text {
+    @apply font-mono text-retro-green border-r-2 border-retro-green;
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: theme('colors.retro.green') }
+  }
+  
+  /* Pixel divider */
+  .pixel-divider {
+    @apply h-px w-full my-8 relative overflow-hidden;
+    background: linear-gradient(
+      to right,
+      theme('colors.retro.darkgray') 0%,
+      theme('colors.retro.purple') 50%,
+      theme('colors.retro.darkgray') 100%
+    );
+  }
+  
+  .pixel-divider::before {
+    content: '';
+    @apply absolute top-0 left-0 w-full h-full;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      theme('colors.retro.cyan') 50%,
+      transparent 100%
+    );
+    animation: pulse-neon 4s ease-in-out infinite;
+  }
+  
+  /* Social media icons */
+  .pixel-social {
+    @apply flex items-center justify-center w-10 h-10 rounded border border-white/20 
+      bg-retro-darkgray/90 transition-all duration-300 
+      hover:border-retro-blue/60 hover:bg-retro-darkgray;
+  }
+  
+  .pixel-social svg {
+    @apply w-5 h-5 text-white transition-all duration-300;
+  }
+  
+  .pixel-social:hover svg {
+    @apply text-retro-blue drop-shadow-neon-blue;
+  }
+  
+  /* Testimonial card */
+  .testimonial-card {
+    @apply pixel-frame flex flex-col h-full;
+  }
+  
+  /* Pixelated background */
+  .pixel-bg {
+    @apply absolute inset-0 -z-10 opacity-30;
+    background-size: 30px 30px;
+    background-image: 
+      linear-gradient(to right, theme('colors.retro.darkgray') 1px, transparent 1px),
+      linear-gradient(to bottom, theme('colors.retro.darkgray') 1px, transparent 1px);
+  }
+  
+  /* Marquee for tools */
+  .marquee {
+    @apply flex overflow-hidden relative whitespace-nowrap;
+  }
+  
+  .marquee-content {
+    @apply flex items-center animate-horizontal-scroll;
+  }
+  
+  /* Mobile Menu */
+  .mobile-menu-icon {
+    @apply relative w-12 h-12 flex items-center justify-center 
+      bg-retro-darkgray/90 border border-white/20 rounded p-2;
+  }
+  
+  .mobile-menu-icon svg {
+    @apply w-6 h-6 text-white;
+  }
+  
+  /* Glitch effect */
+  .glitch-effect {
+    @apply relative;
+  }
+  
+  .glitch-effect:hover::before,
+  .glitch-effect:hover::after {
+    content: attr(data-text);
+    @apply absolute top-0 left-0 w-full h-full;
+    clip: rect(0, 0, 0, 0);
+  }
+  
+  .glitch-effect:hover::before {
+    @apply text-retro-blue left-[2px] animate-glitch;
+    animation-delay: -0.2s;
+  }
+  
+  .glitch-effect:hover::after {
+    @apply text-retro-purple left-[-2px] animate-glitch;
+    animation-delay: -0.3s;
+  }
+}
+
+@layer utilities {
+  .text-shadow-none {
+    text-shadow: none;
+  }
+  
+  .text-shadow-sm {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+  
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+  
+  .text-shadow-md {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .text-shadow-lg {
+    text-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  }
+  
+  .text-shadow-xl {
+    text-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@keyframes neonPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px var(--glow-color)) drop-shadow(0 0 20px var(--glow-color));
+    opacity: 1;
+  }
+  50% {
+    filter: drop-shadow(0 0 15px var(--glow-color)) drop-shadow(0 0 30px var(--glow-color));
+    opacity: 0.8;
+  }
+}
+
+.logo {
+  max-width: 200px;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 0 10px var(--glow-color)) drop-shadow(0 0 20px var(--glow-color));
+  animation: neonPulse 2s ease-in-out infinite;
+}
+
+/* --- BLOG TITLES CUSTOM SIZE --- */
+.prose h1 {
+  font-size: 2.5rem;
+  line-height: 1.1;
+  font-family: 'Press Start 2P', cursive;
+  color: #22d3ee;
+  margin-bottom: 1.5rem;
+}
+.prose h2 {
+  font-size: 2rem;
+  line-height: 1.15;
+  font-family: 'Press Start 2P', cursive;
+  color: #8b5cf6;
+  margin-bottom: 1.2rem;
+  margin-top: 2.2rem;
+}
+.prose h3 {
+  font-size: 1.3rem;
+  line-height: 1.2;
+  font-family: 'Press Start 2P', cursive;
+  color: #fbbf24;
+  margin-bottom: 1rem;
+  margin-top: 1.8rem;
+}
+.prose h4 {
+  font-size: 1.1rem;
+  color: #10b981;
+  margin-bottom: 0.7rem;
+  margin-top: 1.2rem;
+}

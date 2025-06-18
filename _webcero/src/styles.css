@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Utility classes for specific elements that need these styles */
+.neon-border {
+  border: 1px solid #5ff;
+  border-radius: 4px;
+  box-shadow: 0 0 5px rgba(85, 255, 255, 0.5);
+}
+
+.retro-text {
+  font-family: 'Press Start 2P', cursive;
+  color: #fff;
+}
+
+/* Score display specific styles */
+.score-text {
+  font-family: 'Press Start 2P', cursive;
+  color: white;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.5);
+  letter-spacing: 2px;
+} 
